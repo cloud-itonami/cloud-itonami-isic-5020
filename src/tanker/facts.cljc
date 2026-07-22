@@ -23,7 +23,39 @@
   Coverage is reported HONESTLY (see `coverage`), the same discipline
   every sibling actor's `facts` namespace uses: a jurisdiction not in
   this table has NO spec-basis, full stop -- the advisor must not
-  fabricate one, and the governor holds if it tries.")
+  fabricate one, and the governor holds if it tries.
+
+  5th jurisdiction (added 2026-07): Singapore's Maritime and Port
+  Authority (MPA) enforces the Merchant Shipping Act 1995 -- s.206
+  'Powers of inspector' (flag/port-state inspection and audit
+  authority) and s.113 'Detention of unsafe ship' (the Director of
+  Marine's detention power) -- and the Prevention of Pollution of the
+  Sea Act 1990, Singapore's MARPOL-implementing statute -- s.22
+  'Powers of inspectors' and s.23 'Power to deny entry and to detain
+  ship'. Both section numbers were verified directly against the
+  Attorney-General's Chambers Singapore Statutes Online text of each
+  Act (https://sso.agc.gov.sg/Act/MSA1995,
+  https://sso.agc.gov.sg/Act/PPSA1990) and cross-checked against MPA's
+  own citation of the same sections on its Flag State Control
+  Inspections page
+  (https://www.mpa.gov.sg/singapore-registry-of-ships/flag-state-control/flag-state-control-inspections).
+  Distinct from the GBR/JPN/NOR/USA entries, Singapore also has a
+  citable tanker-specific certificate mechanism: MPA requires every
+  tanker carrying more than 2,000 tons of oil in bulk as cargo,
+  entering or leaving the Port of Singapore, to carry a valid CLC 92
+  certificate (International Convention on Civil Liability for Oil
+  Pollution Damage, 1992) on board, per MPA's Statutory Certificates
+  page
+  (https://www.mpa.gov.sg/singapore-registry-of-ships/register-with-srs/statutory-certificates).
+  MPA's role as Singapore's Port State Control / Flag State Control
+  authority (inspecting visiting foreign ships and auditing
+  Singapore-registered ships for compliance with international safety,
+  security and marine-pollution-prevention standards) is confirmed on
+  MPA's own Port State Control and Flag State Control Inspections
+  pages; SOLAS Chapter IX / ISM Code applicability to Singapore-flagged
+  ships is confirmed on MPA's International Safety Management (ISM)
+  Code page
+  (https://www.mpa.gov.sg/singapore-registry-of-ships/flag-state-control/international-safety-management-(ism)-code).")
 
 (def catalog
   "iso3 -> requirement map. `:required-evidence` is the tanker
@@ -60,6 +92,14 @@
           :owner-authority "Norwegian Maritime Authority (NMA / Sjøfartsdirektoratet)"
           :legal-basis "Norwegian Ship Safety and Security Act; SOLAS"
           :provenance "https://www.sdir.no/en/"
+          :required-evidence ["bill-of-lading"
+                              "IMO registry / vessel record"
+                              "inert-gas-system (IGS) operational record"
+                              "ship-shore bonding confirmation"]}
+   "SGP" {:name "Singapore"
+          :owner-authority "Maritime and Port Authority of Singapore (MPA)"
+          :legal-basis "Merchant Shipping Act 1995 s.206 (powers of inspector) and s.113 (detention of unsafe ship); Prevention of Pollution of the Sea Act 1990 (Singapore's MARPOL implementation) s.22 (powers of inspectors) and s.23 (power to deny entry and to detain ship); CLC 92 certificate required on board any tanker carrying >2,000 tons of oil in bulk cargo entering/leaving the Port of Singapore"
+          :provenance "https://sso.agc.gov.sg/Act/MSA1995"
           :required-evidence ["bill-of-lading"
                               "IMO registry / vessel record"
                               "inert-gas-system (IGS) operational record"
