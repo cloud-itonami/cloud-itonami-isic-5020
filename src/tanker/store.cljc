@@ -34,10 +34,9 @@
   over an immutable log -- the audit trail a regulator, a charterer, or
   an operator trusting a marine-tanker actor needs, and the evidence an
   operator needs if a dispatch or a discharge is later disputed."
-  (:require #?(:clj  [clojure.edn :as edn]
-               :cljs [cljs.reader :as edn])
-           [tanker.registry :as registry]
-           [langchain.db :as d]))
+  (:require [tanker.registry :as registry]
+            [langchain.db :as d]
+            [langchain-store.core :as ls]))
 
 (defprotocol Store
   (vessel-shipment [s id])
@@ -245,9 +244,6 @@
    :voyage-sequence/jurisdiction      {:db/unique :db.unique/identity}
    :discharge-sequence/jurisdiction   {:db/unique :db.unique/identity}})
 
-(defn- enc [v] (pr-str v))
-(defn- dec* [s] (when s (edn/read-string s)))
-
 ;; Every vessel-shipment field is stored as its own Datomic attr so a
 ;; governor pull reads the exact ground truth (no blob decode). Boolean
 ;; fields are coerced on read so a missing attr reads back as false
@@ -303,21 +299,21 @@
          (map #(pull->vessel-shipment (d/pull (d/db conn) vessel-shipment-pull [:vessel-shipment/id %])))
          (sort-by :id)))
   (bl-assessment-of [_ vs-id]
-    (dec* (d/q '[:find ?p . :in $ ?vid
+    (ls/dec* (d/q '[:find ?p . :in $ ?vid
                 :where [?a :assessment/vs-id ?vid] [?a :assessment/payload ?p]]
               (d/db conn) vs-id)))
   (ledger [_]
     (->> (d/q '[:find ?s ?f :where [?e :ledger/seq ?s] [?e :ledger/fact ?f]] (d/db conn))
          (sort-by first)
-         (mapv (comp dec* second))))
+         (mapv (comp ls/dec* second))))
   (voyage-history [_]
     (->> (d/q '[:find ?s ?r :where [?e :voyage/seq ?s] [?e :voyage/record ?r]] (d/db conn))
          (sort-by first)
-         (mapv (comp dec* second))))
+         (mapv (comp ls/dec* second))))
   (discharge-history [_]
     (->> (d/q '[:find ?s ?r :where [?e :discharge/seq ?s] [?e :discharge/record ?r]] (d/db conn))
          (sort-by first)
-         (mapv (comp dec* second))))
+         (mapv (comp ls/dec* second))))
   (next-voyage-sequence [_ jurisdiction]
     (or (d/q '[:find ?n . :in $ ?j
               :where [?e :voyage-sequence/jurisdiction ?j] [?e :voyage-sequence/next ?n]]
@@ -338,7 +334,7 @@
       (d/transact! conn [(vessel-shipment->tx value)])
 
       :bl-assessment/set
-      (d/transact! conn [{:assessment/vs-id (first path) :assessment/payload (enc payload)}])
+      (d/transact! conn [{:assessment/vs-id (first path) :assessment/payload (ls/enc payload)}])
 
       :vessel/mark-dispatched
       (let [vs-id (first path)
@@ -348,7 +344,7 @@
         (d/transact! conn
                      [(vessel-shipment->tx (assoc vs-patch :id vs-id))
                       {:voyage-sequence/jurisdiction jurisdiction :voyage-sequence/next next-n}
-                      {:voyage/seq (count (voyage-history s)) :voyage/record (enc (get result "record"))}])
+                      {:voyage/seq (count (voyage-history s)) :voyage/record (ls/enc (get result "record"))}])
         result)
 
       :vessel/mark-discharged
@@ -359,12 +355,12 @@
         (d/transact! conn
                      [(vessel-shipment->tx (assoc vs-patch :id vs-id))
                       {:discharge-sequence/jurisdiction jurisdiction :discharge-sequence/next next-n}
-                      {:discharge/seq (count (discharge-history s)) :discharge/record (enc (get result "record"))}])
+                      {:discharge/seq (count (discharge-history s)) :discharge/record (ls/enc (get result "record"))}])
         result)
       nil)
     s)
   (append-ledger! [s fact]
-    (d/transact! conn [{:ledger/seq (count (ledger s)) :ledger/fact (enc fact)}])
+    (d/transact! conn [{:ledger/seq (count (ledger s)) :ledger/fact (ls/enc fact)}])
     fact)
   (with-vessel-shipments [s vessel-shipments]
     (when (seq vessel-shipments) (d/transact! conn (mapv vessel-shipment->tx (vals vessel-shipments)))) s))
