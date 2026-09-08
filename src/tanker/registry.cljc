@@ -31,7 +31,7 @@
   voyage or settling a real discharge itself (that is `tanker.
   operation`'s `:voyage/dispatch`/`:discharge/settle`, always human-
   gated -- see README `Actuation`)."
-  (:require [clojure.string :as str]))
+  (:require [kotoba.lang.text :as str]))
 
 (defn- unsigned-certificate
   "Every certificate this actor produces is UNSIGNED -- signature is
@@ -127,7 +127,7 @@
     (throw (ex-info "voyage-dispatch: jurisdiction required" {})))
   (when (< sequence 0)
     (throw (ex-info "voyage-dispatch: sequence must be >= 0" {})))
-  (let [voyage-number (str (str/upper-case jurisdiction) "-VOYAGE-" (zero-pad sequence 6))
+  (let [voyage-number (str (str/upper jurisdiction) "-VOYAGE-" (zero-pad sequence 6))
         record {"record_id" voyage-number
                 "kind" "voyage-dispatch-draft"
                 "vessel_shipment_id" vessel-shipment-id
@@ -154,7 +154,7 @@
     (throw (ex-info "discharge-settlement: jurisdiction required" {})))
   (when (< sequence 0)
     (throw (ex-info "discharge-settlement: sequence must be >= 0" {})))
-  (let [discharge-number (str (str/upper-case jurisdiction) "-DISCHARGE-" (zero-pad sequence 6))
+  (let [discharge-number (str (str/upper jurisdiction) "-DISCHARGE-" (zero-pad sequence 6))
         record {"record_id" discharge-number
                 "kind" "discharge-settlement-draft"
                 "vessel_shipment_id" vessel-shipment-id
