@@ -198,7 +198,7 @@ never auto-dispatch a voyage or auto-settle a discharge.
 - `MemStore` || `DatomicStore` parity is proven by
   `test/tanker/store_contract_test.cljk`.
 - 42 tests / 204 assertions pass; lint is clean; the demo
-  (`clojure -M:dev:run`) walks one clean dispatch + discharge lifecycle, plus
+  (`kbb -M:dev:run`) walks one clean dispatch + discharge lifecycle, plus
   the HARD-hold scenarios (no spec-basis, invalid IMO, unverified B/L,
   cargo-grade mismatch, vessel overload, inert-gas O2 excessive at dispatch AND
   at discharge, bonding unconfirmed, double dispatch, double discharge),

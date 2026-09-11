@@ -88,7 +88,7 @@ fabricated spec-basis, a dispatch started with incomplete evidence, an invalid
 IMO number or a non-inerted tank atmosphere, an exception suppressed to force a
 dispatch through, or a discharge posted without a human sign-off.
 
-## Feel the Decision Gate: `clojure -M:dev:run`
+## Feel the Decision Gate: `kbb -M:dev:run`
 
 This vertical has no companion playable prototype yet (unlike the freight
 sibling's `itonami/freight-dispatch` game). The fastest hands-on way to feel why
