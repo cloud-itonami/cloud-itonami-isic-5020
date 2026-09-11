@@ -6,7 +6,7 @@
   `docs/samples/operator-console.html` with no generator. This namespace
   drives the REAL actor stack (`tanker.operation` -> `tanker.governor`
   -> `tanker.store`) through a scenario adapted from this repo's own
-  `tanker.sim` demo driver (`clojure -M:dev:run`, confirmed BEFORE
+  `tanker.sim` demo driver (`kbb -M:dev:run`, confirmed BEFORE
   writing this file to produce a sensible ledger against the real
   seeded vessel-shipment ids `vs-1`..`vs-8` -- ids DO match
   `tanker.store/demo-data`, so it was safe to reuse rather than author
@@ -17,7 +17,7 @@
   the page content, byte-identical across reruns against the same seed
   (verify by diffing two consecutive runs).
 
-  Usage: `clojure -M:dev:render-html [out-file]`
+  Usage: `kbb -M:dev:render-html [out-file]`
   (default `docs/samples/operator-console.html`)."
   (:require [jp-go-dds.skin]
             [kotoba.lang.text :as str]
@@ -164,7 +164,7 @@
      "<main>\n"
      "  <section class=\"card\">\n"
      "    <h2>Vessel-shipments</h2>\n"
-     "    <p class=\"muted\">Demo snapshot — build-time-generated from <code>tanker.store</code> via <code>tanker.render-html</code> (<code>clojure -M:dev:render-html</code>). HARD holds this run: "
+     "    <p class=\"muted\">Demo snapshot — build-time-generated from <code>tanker.store</code> via <code>tanker.render-html</code> (<code>kbb -M:dev:render-html</code>). HARD holds this run: "
      hard-holds ".</p>\n"
      "    <table>\n"
      "      <thead><tr><th>Shipment</th><th>IMO</th><th>Load → Discharge</th><th>B/L</th><th>Jurisdiction</th><th>Lifecycle</th><th>Last op status</th></tr></thead>\n"

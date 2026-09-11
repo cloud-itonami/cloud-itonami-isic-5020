@@ -1,5 +1,5 @@
 (ns tanker.sim
-  "Demo driver -- `clojure -M:dev:run`. Walks a clean vessel-shipment
+  "Demo driver -- `kbb -M:dev:run`. Walks a clean vessel-shipment
   through intake -> bill-of-lading safety assessment -> voyage dispatch
   (escalate/approve/commit) -> discharge settlement (escalate/approve/
   commit), then shows HARD-hold scenarios: a jurisdiction with no
