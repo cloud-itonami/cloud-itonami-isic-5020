@@ -137,7 +137,7 @@ real status-lifecycle bug (ADR-2607071320).
 
 `tanker.store/Store` is implemented by both `MemStore` (atom-backed, default
 for dev/tests/demo) and `DatomicStore` (`langchain.db`-backed), proven to
-satisfy the same contract in `test/tanker/store_contract_test.clj`. The
+satisfy the same contract in `test/tanker/store_contract_test.cljk`. The
 ledger stays append-only on every backend: which vessel-shipment was screened
 for an invalid IMO check digit, an unverified bill of lading, a cargo-grade
 mismatch, an overloaded displacement, an inert-gas O2 above the SOLAS 8 vol%
@@ -196,7 +196,7 @@ never auto-dispatch a voyage or auto-settle a discharge.
   Decision 3, with the HSE-CRITICAL two-actuation-point inert-gas O2 evaluation
   documented explicitly.
 - `MemStore` || `DatomicStore` parity is proven by
-  `test/tanker/store_contract_test.clj`.
+  `test/tanker/store_contract_test.cljk`.
 - 42 tests / 204 assertions pass; lint is clean; the demo
   (`clojure -M:dev:run`) walks one clean dispatch + discharge lifecycle, plus
   the HARD-hold scenarios (no spec-basis, invalid IMO, unverified B/L,
