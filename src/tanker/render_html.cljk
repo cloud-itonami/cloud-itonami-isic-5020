@@ -19,7 +19,7 @@
 
   Usage: `kbb -M:dev:render-html [out-file]`
   (default `docs/samples/operator-console.html`)."
-  (:require [jp-go-dds.skin]
+  (:require [kotoba.io :as kio] [jp-go-dds.skin]
             [kotoba.lang.text :as str]
             [tanker.store :as store]
             [tanker.operation :as op]
@@ -201,8 +201,8 @@
   (let [out (or (first args) "docs/samples/operator-console.html")
         db (run-demo!)
         html (render db)
-        parent (.getParentFile (java.io.File. out))]
-    (when parent (.mkdirs parent))
+        parent (kio/parent-file (kio/file out))]
+    (when parent (kio/mkdirs parent))
     (spit out html)
     (println "wrote" out "(" (count (store/ledger db)) "ledger facts,"
              (count (store/voyage-history db)) "voyage dispatches,"
