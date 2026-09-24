@@ -9,7 +9,7 @@
     inert-gas O2 check fires UNCONDITIONALLY at BOTH dispatch and
     discharge (overridable by NO human), and every decision (commit OR
     hold) leaves exactly one ledger fact."
-  (:require [clojure.test :refer [deftest is testing]]
+  (:require [kotoba.test :refer [deftest is testing]]
             [langgraph.graph :as g]
             [tanker.store :as store]
             [tanker.operation :as op]))
